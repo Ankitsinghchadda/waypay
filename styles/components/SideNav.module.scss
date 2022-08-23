@@ -1,0 +1,116 @@
+@import "../abstracts/breakpoints";
+
+.container {
+  background-color: $secondary-color;
+  min-height: 100%;
+  transition: all 0.3s ease-out;
+  width: 17rem;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: -8px 0px 18px -10px $secondary-accent-color inset;
+  position: fixed;
+  left: 0;
+  display: none;
+  border-right: 2.6px solid $secondary-accent-color;
+  padding-block: 1.5rem;
+
+  @include md {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__main {
+    display: flex;
+    flex-direction: column;
+    margin-top: 2rem;
+
+    &-logo {
+      position: relative;
+      height: 5rem;
+      width: 12.5rem;
+      margin: 0 auto;
+    }
+
+    &-links {
+      list-style-type: none;
+      margin-top: 4rem;
+      padding-left: 0;
+
+      & > *:not(:last-child) {
+        margin-bottom: 0.6rem;
+      }
+
+      li {
+        width: 70%;
+        margin: 0 auto;
+        border: 2px double transparent;
+        background-origin: border-box;
+        background-clip: padding-box, border-box;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1rem;
+        border-radius: 5px;
+        background-color: $secondary-color;
+
+        a {
+          display: block;
+          font-size: 1em;
+          font-weight: 600;
+          color: white;
+          transition: all 0.3s ease-out;
+          position: relative;
+          width: 90%;
+
+          &:hover {
+            color: white;
+          }
+        }
+
+        svg {
+          color: white;
+          aspect-ratio: 1;
+        }
+
+        &:hover a,
+        &:hover svg {
+          color: $primary-color;
+        }
+      }
+
+      &-active {
+        background-image: linear-gradient(rgb(13, 14, 33), rgb(13, 14, 33)),
+          radial-gradient(
+            circle at left top,
+            rgb(27, 73, 143),
+            rgba(4, 126, 255, 1)
+          );
+
+        svg {
+          color: $primary-color !important;
+        }
+
+        a {
+          color: $primary-color !important;
+        }
+      }
+    }
+  }
+
+  & > .logo {
+    width: 60%;
+    padding-top: 2rem;
+    aspect-ratio: 1;
+    margin-inline: auto;
+    cursor: pointer;
+  }
+
+  &__footer {
+    p {
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: $primary-color;
+      text-align: center;
+    }
+  }
+}

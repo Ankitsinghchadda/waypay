@@ -1,0 +1,170 @@
+@import "../abstracts/mixins";
+@import "../abstracts/breakpoints";
+
+.container {
+  min-height: 74vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  & > .card {
+    width: 90%;
+    margin: 0 auto;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    flex-direction: column;
+    background: $card-bg-color;
+    .binance {
+      width: 60px;
+      position: absolute;
+      left: 40px;
+      top: 75%;
+      transform: translateY(-75%);
+    }
+    .token_img {
+      width: 60px;
+      position: absolute;
+      right: 40px;
+      top: 75%;
+      transform: translateY(-75%);
+    }
+    @include box-shadow-primary;
+
+    @include sm {
+      width: 80%;
+    }
+
+    @include lg {
+      width: 50%;
+    }
+
+    @include xl {
+      width: 40%;
+    }
+
+    & > * {
+      margin-block: 1.2rem;
+    }
+
+    & > p {
+      color: $primary-color;
+      font-size: 1.2em;
+    }
+
+    & > .input {
+      background-color: #10151b;
+      padding: 0.4rem 1.5rem;
+      text-align: center;
+      width: 80%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      @include sm {
+        width: 60%;
+      }
+
+      @include lg {
+        width: 70%;
+      }
+
+      @include xl {
+        width: 60%;
+      }
+
+      & > button {
+        background: #3a3a3a;
+        border: none;
+        padding: 0.5rem 0.8rem;
+        color: white;
+        border-radius: 7px;
+        cursor: pointer;
+      }
+
+      & > input {
+        background: #10151b;
+        border: 0;
+        outline: 0;
+        padding: 0.5rem 0.8rem;
+        color: white;
+        text-align: center;
+        font-size: 1.1em;
+        font-weight: 600;
+        width: 100%;
+
+        &::placeholder {
+          color: #87a0b1;
+        }
+      }
+    }
+
+    & > .approve__btn {
+      background: #2899ff;
+      border: none;
+      padding: 0.6rem 1.7rem;
+      color: white;
+      border-radius: 7px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 1.25em;
+    }
+
+    & > .disapprove__btn {
+      background: gray;
+      border: none;
+      padding: 0.6rem 1.7rem;
+      color: white;
+      border-radius: 7px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 1.25em;
+    }
+
+    & > .total__container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      width: 100%;
+      padding: 0 1rem;
+
+      & > span:first-of-type {
+        color: $disabled-color;
+        font-weight: 500;
+        width: 47%;
+        text-align: right;
+      }
+
+      & > span:nth-of-type(2) {
+        text-align: left;
+        color: white;
+        font-weight: 700;
+        font-size: 1.2em;
+        margin-left: 1rem;
+        width: 47%;
+        overflow-wrap: anywhere;
+      }
+    }
+
+    & > .add__token__btn {
+      background: transparent;
+      border: 1px solid $disabled-color;
+      color: $disabled-color;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 0.35rem;
+      border-radius: 10px;
+      cursor: pointer;
+
+      & > .img {
+        width: 20px;
+        height: 20px;
+        margin-left: 0.5rem;
+      }
+    }
+  }
+}

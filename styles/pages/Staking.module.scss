@@ -1,0 +1,303 @@
+@import '../abstracts/mixins';
+@import '../abstracts/breakpoints';
+
+.container {
+	margin-top: -2rem;
+	color: white;
+
+	& > *:not(:last-child) {
+		margin-bottom: 2rem;
+	}
+	&__heading {
+		div {
+			h6 {
+				font-size: 1.8rem;
+				font-weight: 700;
+			}
+			p {
+				font-size: 1rem;
+			}
+		}
+		p {
+			font-size: 1rem;
+		}
+		& > *:not(:last-child) {
+			margin-bottom: 1.2rem;
+		}
+	}
+
+	&__main {
+		display: block;
+		flex-direction: column;
+		flex-wrap: wrap;
+		row-gap: 1.8rem;
+
+		@include sm {
+			display: flex;
+		}
+
+		@include xl {
+			flex-direction: row;
+			flex-wrap: nowrap;
+		}
+
+		& > *:not(:last-child) {
+			@include lg {
+				margin-right: 1.4rem;
+			}
+		}
+
+		&-1 {
+			display: flex;
+			flex-direction: column;
+
+			& > *:not(:last-child) {
+				margin-bottom: 1rem;
+			}
+
+			table {
+				border-collapse: collapse;
+				@include box-shadow-primary;
+				background: $card-bg-color;
+
+				tr {
+					th {
+						color: $primary-color;
+						padding: 0.8rem 1.2rem;
+						background: $card-bg-color;
+					}
+					td {
+						border: 0.1px solid black;
+						padding: 0.8rem 1rem;
+						background: $card-bg-color;
+					}
+				}
+			}
+
+			&-buttons {
+				& > *:not(:last-child) {
+					@include lg {
+						margin-right: 1.4rem;
+					}
+				}
+				display: flex;
+				justify-content: center;
+				gap: 1rem;
+
+				button {
+					@include btn-primary;
+					margin-top: 0.4rem;
+				}
+			}
+		}
+
+		&-2 {
+			display: flex;
+			flex-direction: column;
+			margin-left: 1rem;
+
+			& > *:not(:last-child) {
+				margin-bottom: 1.2rem;
+			}
+			&-balance {
+				display: flex;
+				flex-direction: column;
+
+				& > *:not(:last-child) {
+					margin-bottom: 0.2rem;
+				}
+
+				label {
+					font-size: 1rem;
+
+					span {
+						font-weight: 600;
+					}
+				}
+
+				input {
+					outline: none;
+					color: white;
+					background-color: rgba(0, 0, 0, 1);
+					border: none;
+					padding: 0.2rem 0.8rem;
+					font-size: 1.2rem;
+					width: 100%;
+					letter-spacing: 1.2px;
+				}
+				div {
+					display: flex;
+					justify-content: center;
+					margin-top: 0.4rem;
+					& > *:not(:last-child) {
+						margin-right: 0.6rem;
+					}
+					p {
+						color: black;
+						cursor: pointer;
+						padding: 0.2rem 0.8rem;
+						font-size: 0.8rem;
+						border-radius: 1.2rem;
+						font-weight: 500;
+						background-color: rgb(198, 198, 198);
+					}
+				}
+			}
+
+			&-duration {
+				h6 {
+					font-size: 1.4rem;
+				}
+
+				div {
+
+					@include md {
+						display: flex;
+					}
+
+					& > *:not(:last-child) {
+						margin-right: 0.2rem;
+					}
+
+					p {
+						background-color: rgb(198, 198, 198);
+						padding: 0.3rem 0.6rem;
+						font-weight: 500;
+						color: black;
+						font-size: 0.8rem;
+						cursor: pointer;
+						margin-block: 1rem;
+						border-radius: 5px !important;
+
+						@include md {
+							margin-block: 0;
+						}
+
+						&:nth-child(1) {
+							border-radius: 0.4rem 0 0 0.4rem;
+						}
+
+						&:last-child {
+							border-radius: 0 0.4rem 0.4rem 0;
+						}
+					}
+				}
+			}
+
+			&-pool {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				padding: 1.4rem 0;
+				background: $card-bg-color;
+				border-radius: 0.8rem;
+				margin-top: 5.8rem;
+
+				@include box-shadow-primary;
+
+				& > *:not(:last-child) {
+					margin-bottom: 0.8rem;
+				}
+
+				h5 {
+					font-size: 1.2rem;
+				}
+
+				button {
+					@include btn-primary;
+					margin-top: 0.7rem;
+				}
+			}
+		}
+
+		&-3 {
+			&-overview {
+				padding: 0rem 1rem;
+				h5 {
+					font-size: 1.2rem;
+					margin-top: 1rem;
+
+					@include lg {
+						margin-top: 0;
+					}
+				}
+
+				div {
+					margin-top: 1rem;
+					background: $card-bg-color;
+					display: flex;
+					flex-direction: column;
+					padding: 1rem;
+					@include box-shadow-primary;
+					font-size: 1rem;
+					
+					@include md {
+						min-width: 16rem;
+					}
+
+					& > *:not(:last-child) {
+						margin-bottom: 0.2rem;
+					}
+
+					div {
+						display: block;
+						flex-direction: row;
+						align-items: center;
+						justify-content: space-between;
+						padding: 0;
+						margin-top: 0;
+						box-shadow: none;
+						border: 0;
+						text-align: center;
+
+						@include md {
+							display: flex;
+						}
+
+						p {
+							font-weight: 700;
+							&:last-child {
+								color: $primary-color;
+							}
+						}
+					}
+				}
+
+				button {
+					@include btn-primary;
+					margin: 1rem auto;
+				}
+			}
+		}
+
+		&-details {
+			@include box-shadow-primary;
+			display: flex;
+			align-items: center;
+			flex-direction: column;
+			padding: 1rem;
+			background: $card-bg-color;
+			margin-top: 1rem;
+
+			& > *:not(:last-child) {
+				margin-bottom: 0.4rem;
+			}
+
+			div {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				h6 {
+					font-size: 1rem;
+					font-weight: 700;
+				}
+				p {
+					color: $primary-color;
+					font-weight: 700;
+					margin-top: 0.6rem;
+					font-size: 0.9rem;
+				}
+			}
+		}
+	}
+}

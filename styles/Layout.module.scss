@@ -1,0 +1,46 @@
+@import 'abstracts/breakpoints';
+
+.container {
+	display: flex;
+	width: 100%;
+	flex-direction: column;
+	min-height: 100vh;
+
+	&__main {
+		flex: 1;
+		margin-left: 0rem;
+		padding: 2rem 1.6rem;
+		background: linear-gradient(0deg, rgba(23,70,141,1) 0%, rgba(0,0,0,1) 35%);
+
+		@include md {
+			margin-left: 16rem;
+		}
+
+		&-right {
+			margin: 0 auto;
+			min-height: 74.5vh;
+		}
+
+		&-button {
+			display: flex;
+			flex-direction: row-reverse;
+			button {
+				cursor: pointer;
+				outline: none;
+				background-color: rgb(29, 104, 255);
+				border: none;
+				font-family: inherit;
+				padding: 0.6rem 1.8rem;
+				border-radius: 11.4rem;
+				font-size: 1rem;
+				font-weight: 600;
+				color: white;
+				transition: all 0.3s ease-in-out;
+
+				&:hover {
+					background-color: rgb(0, 73, 218);
+				}
+			}
+		}
+	}
+}

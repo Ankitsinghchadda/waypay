@@ -1,0 +1,119 @@
+@import "../abstracts/mixins";
+@import "../abstracts/breakpoints";
+
+.container {
+  display: flex;
+  flex-direction: column;
+  color: black;
+
+  p {
+    color: $primary-color;
+    font-weight: 700;
+    margin-top: 0.6rem;
+    text-align: center;
+    font-size: 0.8rem;
+
+    @include sm {
+      font-size: 1rem;
+    }
+    @include xl {
+      font-size: 1.1rem;
+    }
+  }
+
+  & > *:not(:last-child) {
+    margin-bottom: 2rem;
+  }
+
+  &__1 {
+    display: flex;
+    flex-direction: column;
+
+    @include md {
+      flex-direction: row;
+    }
+
+    & > *:not(:last-child) {
+      margin-bottom: 2rem;
+      @include md {
+        margin-bottom: 0;
+        margin-right: 2rem;
+      }
+    }
+
+    div {
+      flex: 1;
+    }
+  }
+
+  &__card {
+    background: $card-bg-color;
+    color: white;
+    @include box-shadow-primary;
+    max-width: 0 auto;
+    padding: 1.6rem 1.2rem;
+
+    div {
+      h6 {
+        font-size: 1rem;
+        font-weight: 700;
+        text-align: center;
+        @include xl {
+          font-size: 1.2rem;
+        }
+      }
+      p {
+        color: $primary-color;
+        font-weight: 700;
+        margin-top: 0.6rem;
+        text-align: center;
+        font-size: 0.9rem;
+        @include xl {
+          font-size: 1.1rem;
+        }
+      }
+    }
+
+    &-1 {
+      div {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+    &-2 {
+      ul {
+        list-style: none;
+        & > *:not(:last-child) {
+          margin-bottom: 0.5rem;
+        }
+
+        li {
+          font-size: 0.9rem;
+          display: block;
+          text-align: center;
+          justify-content: space-between;
+          align-items: center;
+          @include sm {
+            font-size: 1rem;
+            display: flex;
+          }
+          @include lg {
+            font-size: 1.2rem;
+          }
+          h6 {
+            font-size: 0.8rem;
+            font-weight: 700;
+
+            @include sm {
+              font-size: 1rem;
+            }
+            @include xl {
+              font-size: 1.2rem;
+            }
+          }
+        }
+      }
+    }
+  }
+}

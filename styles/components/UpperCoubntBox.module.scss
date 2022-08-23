@@ -1,0 +1,102 @@
+@import "../abstracts/breakpoints";
+@import "../abstracts/variables";
+@import "../abstracts/mixins";
+.UpperCountBox {
+  border-width: 1px 0 0 1px;
+
+  border-radius: 15px;
+  background: linear-gradient(
+    95.13deg,
+    rgba(22, 24, 48, 0.25),
+    rgba(46, 51, 92, 0.25)
+  );
+  box-shadow: 5px 5px 7px -5px #000;
+  padding: 16px 20px;
+  box-shadow: 0px 0px 40px #0366ce;
+
+  .top_area {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    * {
+      font-size: 15px;
+      font-weight: 500;
+    }
+  }
+
+  .bottom {
+    display: flex;
+    align-items: center;
+    .dropdownWrapper {
+      display: flex;
+      align-items: center;
+      > p {
+        cursor: pointer;
+      }
+      .dropdown {
+        margin: 0px;
+        position: relative;
+        ul {
+          position: absolute;
+          background-color: #000;
+          right: 0px;
+          top: 100%;
+          list-style: none;
+          padding: 0.8rem 1rem;
+          border-radius: 5px;
+          border: 1px solid #0366ce;
+          li {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            img {
+              margin-right: 5px;
+              width: 20px;
+            }
+            p {
+              color: #ddd;
+              font-size: 15px;
+            }
+          }
+        }
+        .top_area {
+          margin: 0px;
+          margin-left: 20px;
+          cursor: pointer;
+
+          img {
+            margin-left: 5px;
+            margin-top: 5px;
+          }
+          > img:first-child {
+            width: 20px;
+            margin-right: 10px;
+            margin-top: 0px;
+            margin-left: 0px;
+          }
+          p {
+            color: #ddd;
+          }
+        }
+      }
+      p {
+        margin: 0px !important;
+      }
+    }
+    input {
+      flex: 1;
+      border: none;
+      background: transparent;
+      color: #fff;
+      width: 100%;
+      outline: none;
+      &::placeholder {
+        color: #fff;
+      }
+    }
+  }
+  h1 {
+    color: #fff;
+  }
+}

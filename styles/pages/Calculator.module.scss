@@ -1,0 +1,165 @@
+@import "../abstracts/mixins";
+@import "../abstracts/breakpoints";
+
+.container {
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.6rem;
+  margin-left: 0.7rem;
+  max-width: 2040px;
+
+  @include xl {
+    margin-inline: auto;
+    gap: 2rem;
+    display: grid;
+  }
+
+  & > .est__inputs__container {
+    text-align: center;
+
+    * {
+      margin-bottom: 1rem;
+    }
+
+    & > h2 {
+      font-weight: 700;
+      color: white;
+      margin-bottom: 1.6rem;
+      font-size: 1.35em;
+    }
+
+    & > .inputs__container {
+      background: $card-bg-color;
+      @include box-shadow-primary;
+      color: $primary-color;
+      padding: 2.5rem 1rem;
+      padding-bottom: 1rem;
+
+      @include md {
+        padding: 2.5rem;
+      }
+
+      & > .first__row {
+        grid-template-columns: repeat(2, 1fr);
+        column-gap: 3rem;
+
+        @include md {
+          display: grid;
+        }
+
+        & > div {
+          display: flex;
+          justify-content: space-between;
+          flex-direction: column;
+
+          & > p {
+            text-align: left;
+            margin-bottom: 0.65rem;
+            font-size: 0.88em;
+            font-weight: 600;
+          }
+
+          & > div {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            & > input,
+            & > select {
+              width: 100%;
+              background: #10151b;
+              border: 0;
+              outline: 0;
+              padding: 1rem 0.8rem;
+              color: white;
+              font-size: 1em;
+              font-weight: 600;
+              width: 100%;
+              border-radius: 8px;
+
+              &::placeholder {
+                color: $disabled-color;
+              }
+            }
+
+            & > span {
+              background: #10151b;
+              padding: 1rem 0.8rem;
+              color: $disabled-color;
+              font-size: 1em;
+            }
+          }
+        }
+      }
+
+      & > .second__row {
+        text-align: left;
+
+        & > input {
+          width: 100%;
+        }
+      }
+    }
+  }
+
+  & > .est__returns__container {
+    color: white;
+    text-align: center;
+
+    & > h2 {
+      font-weight: 700;
+      color: white;
+      margin-bottom: 1.6rem;
+      font-size: 1.35em;
+      margin-top: 2rem;
+
+      @include xl {
+        margin-top: 0;
+      }
+    }
+
+    & > .returns__container {
+      grid-template-columns: repeat(2, 1fr);
+      min-height: 60vh;
+      gap: 1.5rem;
+
+      @include md {
+        display: grid;
+      }
+
+      @include xl {
+        min-height: 85%;
+        gap: 2.8rem;
+      }
+
+      & > div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        background: $card-bg-color;
+        @include box-shadow-primary;
+        margin: 2rem 0;
+        height: 150px;
+
+        @include md {
+          margin: 0;
+          height: auto;
+        }
+
+        & > p {
+          width: 160px;
+          color: $primary-color;
+          font-size: 0.88em;
+          margin-bottom: 0.4rem;
+          font-weight: 600;
+        }
+
+        & > span {
+          font-size: 1.2em;
+          margin-bottom: 0.4rem;
+          font-weight: 700;
+        }
+      }
+    }
+  }
+}

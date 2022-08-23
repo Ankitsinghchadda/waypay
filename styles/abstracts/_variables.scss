@@ -1,0 +1,49 @@
+// colors
+$primary-color: hsl(211, 100%, 51%);
+$primary-accent-color: hsl(211, 75%, 32%);
+$primary-gradient: linear-gradient(
+  90deg,
+  rgba(7, 22, 45, 1) 0%,
+  rgba(4, 126, 255, 1) 100%
+);
+$secondary-color: hsl(113, 80%, 2%);
+$secondary-accent-color: hsl(123, 50%, 9%);
+$card-bg-color: linear-gradient(
+  22deg,
+  rgba(18, 21, 26, 1) 0%,
+  rgba(31, 39, 50, 1) 100%
+);
+$disabled-color: hsl(223, 3%, 57%);
+
+// Small Mobile Phones
+$screen-xs-min: 440px;
+
+// Small tablets and large smartphones (landscape view)
+$screen-sm-min: 576px;
+
+// Small tablets (portrait view)
+$screen-md-min: 768px;
+
+// Tablets and small desktops
+$screen-lg-min: 992px;
+
+// Large tablets and desktops
+$screen-xl-min: 1250px;
+
+// Larger Screen desktops
+$screen-2xl-min: 1500px;
+
+// Super large Screen desktops
+$screen-3xl-min: 1800px;
+
+// Font sizes
+$font-4xl: 4.4rem;
+$font-3xl: 3.2rem;
+$font-2xl: 2.4rem;
+$font-xl: 1.8rem;
+$font-lg: 1.4rem;
+$font-md: 1.2rem;
+$font-base: 1rem;
+$font-sm: 0.9rem;
+$font-xs: 0.8rem;
+$font-xxs: 0.7rem;

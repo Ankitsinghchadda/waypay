@@ -1,0 +1,113 @@
+@import '../abstracts/mixins';
+@import '../abstracts/breakpoints';
+
+.container {
+	width: auto;
+    min-height: 73vh;
+	margin: 0 auto;
+	color: white;
+
+	@include lg {
+		width: 70vw;
+	}
+
+	& > .first__row {
+		grid-template-columns: repeat(3, 1fr);
+		gap: 2rem;
+
+		@include xl {
+			display: grid;
+		}
+
+		& > div {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			text-align: center;
+			margin-top: 1.8rem;
+
+			& > .header__container {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				flex-direction: column;
+				row-gap: 0.5rem;
+				padding-block: 3rem;
+				width: 80%;
+				font-size: 1.32em;
+
+
+				& > span {
+					font-weight: 700;
+				}
+
+				& > p {
+					font-weight: 700;
+					color: $primary-color;
+				}
+			}
+
+			
+		}
+
+		& > .timer__container {
+			border: 1px solid $primary-accent-color;
+			border-radius: 8px;
+			padding:1rem;
+			font-size: 1.32em;
+			justify-content: space-between;
+
+			* {
+				padding-block: 1rem;
+			}
+
+			& span {
+				font-weight: 700;
+				
+			}
+			
+			& p {
+				font-size: 1.33em;
+				font-weight: 700;
+				color: $primary-color;
+				margin-top: 0.7rem;
+			}
+		}
+	}
+
+	& > .second__row {
+		grid-template-columns: repeat(3, 1fr);
+		gap: 2rem;
+		margin-top: 2rem;
+
+		@include xl {
+			display: grid;
+		}
+
+		& > div {
+			text-align: center;
+			margin-top: 1.8rem;
+		}
+	}
+
+	.info__container {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-direction: column;
+		row-gap: 0.5rem;
+		border: 1px solid $primary-accent-color;
+		border-radius: 8px;
+		padding: 0.6rem;
+		font-size: 1.32em;
+
+		& > span {
+			font-weight: 700;
+		}
+
+		& > p {
+			font-weight: 700;
+			color: $primary-color;
+		}
+	}
+}

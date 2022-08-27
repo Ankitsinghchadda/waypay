@@ -219,7 +219,7 @@ const Presale: NextPage = () => {
 
           <div className={styles.total__container}>
             <span>Total price</span>
-            <span>{totalTokens.toString()} BUSD</span>
+            <span>{Number(totalTokens.toString()).toFixed(2)} BUSD</span>
           </div>
           <button onClick={handleAddToken} className={styles.add__token__btn}>
             <span>Add token to</span>

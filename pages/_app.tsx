@@ -3,6 +3,7 @@ import type { AppProps } from "next/app";
 import { useEffect, useState } from "react";
 import { RecoilRoot } from "recoil";
 import Head from "next/head";
+import { MoralisProvider } from "react-moralis";
 import "animate.css";
 
 function MyApp({ Component, pageProps }: AppProps) {
@@ -23,9 +24,11 @@ function MyApp({ Component, pageProps }: AppProps) {
         <Head>
           <meta name="viewport" content="width=device-width, initial-scale=1" />
         </Head>
-        <RecoilRoot>
-          <Component {...pageProps} />
-        </RecoilRoot>
+        <MoralisProvider initializeOnMount={false}>
+          <RecoilRoot>
+            <Component {...pageProps} />
+          </RecoilRoot>
+        </MoralisProvider>
       </>
     );
   }

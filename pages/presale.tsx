@@ -11,8 +11,12 @@ import { ethers } from "ethers";
 import { ERC20Address, PreSaleAddress } from "../Config/Config.js";
 import erc20abi from "../ABI/erc20.json";
 import presaleabi from "../ABI/presale.json";
-import { infuraProvider } from "wagmi/providers/infura";
 import Swal from "sweetalert2";
+import {
+  useWeb3Contract,
+  useWeb3ExecuteFunction,
+  useMoralis,
+} from "react-moralis";
 
 const Presale: NextPage = () => {
   const [totalTokens, setTotalTokens] = useState(0);
@@ -23,21 +27,37 @@ const Presale: NextPage = () => {
   const [button, setButton] = useState("Approve");
   const [disabled, setDisabled] = useState(false);
   const infuraId = process.env.INFURA_ID;
+  const { chainId, enableWeb3, isWeb3Enabled } = useMoralis();
+
+  console.log(chainId);
+
+  const { runContractFunction: bnbSalePrice } = useWeb3Contract({
+    abi: presaleabi,
+    contractAddress: PreSaleAddress,
+    functionName: "bnbSalePrice",
+  });
+  const { runContractFunction: purchaseMethod } = useWeb3Contract({
+    abi: presaleabi,
+    contractAddress: PreSaleAddress,
+    functionName: "saleMethod",
+  });
+  const { runContractFunction: purchaseTokenWithBNB } = useWeb3Contract();
+  const { runContractFunction: updateSaleMethod } = useWeb3Contract();
+
+  console.log(busdPerTokenWei);
+  console.log(busdPerToken);
 
   useEffect(() => {
     async function load() {
-      let provider = new ethers.providers.InfuraProvider("ropsten", infuraId);
-      let BUSDcontract = new ethers.Contract(ERC20Address, erc20abi, provider);
-      let PreSalecontract = new ethers.Contract(
-        PreSaleAddress,
-        presaleabi,
-        provider
+      if (!isWeb3Enabled) {
+        await enableWeb3();
+      }
+      const bnbperTokenPriceWei = parseInt(await bnbSalePrice()).toString();
+      const busdTokenParsed = await ethers.utils.formatEther(
+        bnbperTokenPriceWei
       );
-      const busdperTokenString = (await PreSalecontract.busdSalePrice()).toString();
-      const busdTokenNum = Number(busdperTokenString);
-      const busdTokenParsed = ethers.utils.formatEther(busdperTokenString);
-      console.log(ethers.utils.parseEther("1").toString());
-      setBusdPerTokenWei(busdperTokenString);
+      console.log({ bnbperTokenPriceWei, busdTokenParsed });
+      setBusdPerTokenWei(bnbperTokenPriceWei);
       setBusdPerToken(busdTokenParsed);
     }
     load();
@@ -79,72 +99,99 @@ const Presale: NextPage = () => {
   };
 
   //Approve BUSD token for use
-  const handleApproval = async () => {
-    if (window.ethereum) {
-      let provider = new ethers.providers.Web3Provider(window.ethereum);
-      const signer = provider.getSigner();
-      let BUSDcontract = new ethers.Contract(ERC20Address, erc20abi, signer);
-      let PreSalecontract = new ethers.Contract(
-        PreSaleAddress,
-        presaleabi,
-        signer
-      );
+  // const handleApproval = async () => {
+  //   if (window.ethereum) {
+  //     let provider = new ethers.providers.Web3Provider(window.ethereum);
+  //     const signer = provider.getSigner();
+  //     let BUSDcontract = new ethers.Contract(ERC20Address, erc20abi, signer);
+  //     let PreSalecontract = new ethers.Contract(
+  //       PreSaleAddress,
+  //       presaleabi,
+  //       signer
+  //     );
 
-      const address = signer.getAddress();
-      try {
-        const str = totalTokens.toString();
-        const string = ethers.utils.parseEther(str).toString();
-        await BUSDcontract.approve(PreSaleAddress, string);
-        setDisabled(true);
-        BUSDcontract.on("Approval", (owner, spender, value) => {
-          console.log(owner, spender, value);
-          setApproved(true);
-        });
-      } catch (e) {
-        console.log(e);
-      }
-    }
-  };
+  //     const address = signer.getAddress();
+  //     try {
+  //       const str = totalTokens.toString();
+  //       const string = ethers.utils.parseEther(str).toString();
+  //       await BUSDcontract.approve(PreSaleAddress, string);
+  //       setDisabled(true);
+  //       BUSDcontract.on("Approval", (owner, spender, value) => {
+  //         console.log(owner, spender, value);
+  //         setApproved(true);
+  //       });
+  //     } catch (e) {
+  //       console.log(e);
+  //     }
+  //   }
+  // };
+
+  console.log({ totalTokens });
 
   const handleBuy = async () => {
-    let provider = new ethers.providers.Web3Provider(window.ethereum);
-    const signer = provider.getSigner();
-    let BUSDcontract = new ethers.Contract(ERC20Address, erc20abi, signer);
-    let PreSalecontract = new ethers.Contract(
-      PreSaleAddress,
-      presaleabi,
-      signer
-    );
-    console.log(ethers.utils.parseEther(noOfTokens.toString()).toString());
-    const address = signer.getAddress();
-    try {
-      await PreSalecontract.purchaseTokenWithBUSD(
-        ethers.utils.parseEther(noOfTokens.toString()).toString()
-      );
-      PreSalecontract.on("PurchaseBUSD", (address, bep20, busd) => {
-        Swal.fire({
-          position: "center",
-          icon: "success",
-          title: "Success",
-          text: "Presale buy sucessful",
-          showConfirmButton: false,
-          timer: 1500,
-          background: "#0b1225",
-        });
-      });
-    } catch (err) {
-      console.log(err);
+    const option = {
+      abi: presaleabi,
+      contractAddress: PreSaleAddress,
+      functionName: "purchaseTokenWithBNB",
+      msgValue: (totalTokens * 10 ** 18).toString(),
+      params: {
+        baseAmount: ethers.utils.parseEther(noOfTokens.toString()).toString(),
+      },
+    };
+    const option2 = {
+      abi: presaleabi,
+      contractAddress: PreSaleAddress,
+      functionName: "updateSaleMethod",
+      params: {
+        sMethod: 2,
+      },
+    };
+    if ((await purchaseMethod()) == 2) {
+      await purchaseTokenWithBNB({ params: option });
+    } else {
+      await updateSaleMethod({ params: option2 });
+      handleBuy();
     }
+
+    // let provider = new ethers.providers.Web3Provider(window.ethereum);
+    // const signer = provider.getSigner();
+    // let BUSDcontract = new ethers.Contract(ERC20Address, erc20abi, signer);
+    // let PreSalecontract = new ethers.Contract(
+    //   PreSaleAddress,
+    //   presaleabi,
+    //   signer
+    // );
+    // console.log(ethers.utils.parseEther(noOfTokens.toString()).toString());
+    // const address = signer.getAddress();
+    // try {
+    //   await PreSalecontract.purchaseTokenWithBUSD(
+    //     ethers.utils.parseEther(noOfTokens.toString()).toString()
+    //   );
+    //   PreSalecontract.on("PurchaseBUSD", (address, bep20, busd) => {
+    //     Swal.fire({
+    //       position: "center",
+    //       icon: "success",
+    //       title: "Success",
+    //       text: "Presale buy sucessful",
+    //       showConfirmButton: false,
+    //       timer: 1500,
+    //       background: "#0b1225",
+    //     });
+    //   });
+    // } catch (err) {
+    //   console.log(err);
+    // }
   };
 
   const handleAddToken = async () => {
-    const tokenAddress = "0xFA6adcFf6A90c11f31Bc9bb59eC0a6efB38381C6";
+    const tokenAddress = ERC20Address;
     const tokenSymbol = "WAYPAY";
     const tokenDecimal = 18;
     const tokenImage = { waypayIcon };
 
     //@ts-ignore
-    ethereum.request({
+    ethereum
+      .request({
         method: "wallet_watchAsset",
         params: {
           type: "ERC20",
@@ -194,7 +241,10 @@ const Presale: NextPage = () => {
             </button>
           </div>
           <div>
-            {approved ? (
+            <button onClick={handleBuy} className={styles.approve__btn}>
+              Buy
+            </button>
+            {/* {approved ? (
               <button onClick={handleBuy} className={styles.approve__btn}>
                 Buy
               </button>
@@ -214,12 +264,12 @@ const Presale: NextPage = () => {
               >
                 Approve
               </button>
-            )}
+            )} */}
           </div>
 
           <div className={styles.total__container}>
             <span>Total price</span>
-            <span>{Number(totalTokens.toString()).toFixed(2)} BUSD</span>
+            <span>{Number(totalTokens.toString()).toFixed(10)} BNB</span>
           </div>
           <button onClick={handleAddToken} className={styles.add__token__btn}>
             <span>Add token to</span>

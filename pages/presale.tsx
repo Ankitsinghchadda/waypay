@@ -42,25 +42,8 @@ const Presale: NextPage = () => {
     functionName: "saleMethod",
   });
 
-  const option = {
-    abi: presaleabi,
-    contractAddress: PreSaleAddress,
-    functionName: "purchaseTokenWithBNB",
-    msgValue: (totalTokens * 10 ** 18).toString(),
-    params: {
-      baseAmount: ethers.utils.parseEther(noOfTokens.toString()).toString(),
-    },
-  };
-  const option2 = {
-    abi: presaleabi,
-    contractAddress: PreSaleAddress,
-    functionName: "updateSaleMethod",
-    params: {
-      sMethod: 2,
-    },
-  };
-  const { runContractFunction: purchaseTokenWithBNB } = useWeb3Contract(option);
-  const { runContractFunction: updateSaleMethod } = useWeb3Contract(option2);
+  const { runContractFunction: purchaseTokenWithBNB } = useWeb3Contract({});
+  const { runContractFunction: updateSaleMethod } = useWeb3Contract({});
 
   console.log(busdPerTokenWei);
   console.log(busdPerToken);
@@ -119,10 +102,27 @@ const Presale: NextPage = () => {
   console.log({ totalTokens });
 
   const handleBuy = async () => {
+    const option = {
+      abi: presaleabi,
+      contractAddress: PreSaleAddress,
+      functionName: "purchaseTokenWithBNB",
+      msgValue: (totalTokens * 10 ** 18).toString(),
+      params: {
+        baseAmount: ethers.utils.parseEther(noOfTokens.toString()).toString(),
+      },
+    };
+    const option2 = {
+      abi: presaleabi,
+      contractAddress: PreSaleAddress,
+      functionName: "updateSaleMethod",
+      params: {
+        sMethod: 2,
+      },
+    };
     if ((await purchaseMethod()) == 2) {
-      await purchaseTokenWithBNB();
+      await purchaseTokenWithBNB({ params: option });
     } else {
-      await updateSaleMethod();
+      await updateSaleMethod({ params: option2 });
       handleBuy();
     }
   };

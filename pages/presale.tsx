@@ -41,8 +41,26 @@ const Presale: NextPage = () => {
     contractAddress: PreSaleAddress,
     functionName: "saleMethod",
   });
-  const { runContractFunction: purchaseTokenWithBNB } = useWeb3Contract();
-  const { runContractFunction: updateSaleMethod } = useWeb3Contract();
+
+  const option = {
+    abi: presaleabi,
+    contractAddress: PreSaleAddress,
+    functionName: "purchaseTokenWithBNB",
+    msgValue: (totalTokens * 10 ** 18).toString(),
+    params: {
+      baseAmount: ethers.utils.parseEther(noOfTokens.toString()).toString(),
+    },
+  };
+  const option2 = {
+    abi: presaleabi,
+    contractAddress: PreSaleAddress,
+    functionName: "updateSaleMethod",
+    params: {
+      sMethod: 2,
+    },
+  };
+  const { runContractFunction: purchaseTokenWithBNB } = useWeb3Contract(option);
+  const { runContractFunction: updateSaleMethod } = useWeb3Contract(option2);
 
   console.log(busdPerTokenWei);
   console.log(busdPerToken);
@@ -52,7 +70,7 @@ const Presale: NextPage = () => {
       if (!isWeb3Enabled) {
         await enableWeb3();
       }
-      const bnbperTokenPriceWei = parseInt(await bnbSalePrice()).toString();
+      const bnbperTokenPriceWei = parseInt((await bnbSalePrice()).toString());
       const busdTokenParsed = await ethers.utils.formatEther(
         bnbperTokenPriceWei
       );
@@ -98,89 +116,15 @@ const Presale: NextPage = () => {
     setTotalTokens(tokens * Number(busdPerToken));
   };
 
-  //Approve BUSD token for use
-  // const handleApproval = async () => {
-  //   if (window.ethereum) {
-  //     let provider = new ethers.providers.Web3Provider(window.ethereum);
-  //     const signer = provider.getSigner();
-  //     let BUSDcontract = new ethers.Contract(ERC20Address, erc20abi, signer);
-  //     let PreSalecontract = new ethers.Contract(
-  //       PreSaleAddress,
-  //       presaleabi,
-  //       signer
-  //     );
-
-  //     const address = signer.getAddress();
-  //     try {
-  //       const str = totalTokens.toString();
-  //       const string = ethers.utils.parseEther(str).toString();
-  //       await BUSDcontract.approve(PreSaleAddress, string);
-  //       setDisabled(true);
-  //       BUSDcontract.on("Approval", (owner, spender, value) => {
-  //         console.log(owner, spender, value);
-  //         setApproved(true);
-  //       });
-  //     } catch (e) {
-  //       console.log(e);
-  //     }
-  //   }
-  // };
-
   console.log({ totalTokens });
 
   const handleBuy = async () => {
-    const option = {
-      abi: presaleabi,
-      contractAddress: PreSaleAddress,
-      functionName: "purchaseTokenWithBNB",
-      msgValue: (totalTokens * 10 ** 18).toString(),
-      params: {
-        baseAmount: ethers.utils.parseEther(noOfTokens.toString()).toString(),
-      },
-    };
-    const option2 = {
-      abi: presaleabi,
-      contractAddress: PreSaleAddress,
-      functionName: "updateSaleMethod",
-      params: {
-        sMethod: 2,
-      },
-    };
     if ((await purchaseMethod()) == 2) {
-      await purchaseTokenWithBNB({ params: option });
+      await purchaseTokenWithBNB();
     } else {
-      await updateSaleMethod({ params: option2 });
+      await updateSaleMethod();
       handleBuy();
     }
-
-    // let provider = new ethers.providers.Web3Provider(window.ethereum);
-    // const signer = provider.getSigner();
-    // let BUSDcontract = new ethers.Contract(ERC20Address, erc20abi, signer);
-    // let PreSalecontract = new ethers.Contract(
-    //   PreSaleAddress,
-    //   presaleabi,
-    //   signer
-    // );
-    // console.log(ethers.utils.parseEther(noOfTokens.toString()).toString());
-    // const address = signer.getAddress();
-    // try {
-    //   await PreSalecontract.purchaseTokenWithBUSD(
-    //     ethers.utils.parseEther(noOfTokens.toString()).toString()
-    //   );
-    //   PreSalecontract.on("PurchaseBUSD", (address, bep20, busd) => {
-    //     Swal.fire({
-    //       position: "center",
-    //       icon: "success",
-    //       title: "Success",
-    //       text: "Presale buy sucessful",
-    //       showConfirmButton: false,
-    //       timer: 1500,
-    //       background: "#0b1225",
-    //     });
-    //   });
-    // } catch (err) {
-    //   console.log(err);
-    // }
   };
 
   const handleAddToken = async () => {

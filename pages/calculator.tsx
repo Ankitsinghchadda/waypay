@@ -36,15 +36,21 @@ const Calculator: NextPage = () => {
               <div>
                 <p>APY</p>
                 <div>
-                  <select value={apy} onChange={(e) => setApy(e.target.value)}>
+                  <input
+                    style={{ color: "white" }}
+                    type="text"
+                    value="5,000%"
+                    disabled
+                  />
+                  {/* <select value={apy} onChange={(e) => setApy(e.target.value)}>
                     <option value="" disabled>
-                      Select Your APY
-                    </option>
-                    <option value="1">5,000%</option>
+                      5,000%
+                    </option> */}
+                  {/* <option value="1">5,000%</option>
                     <option value="2">99,999%</option>
                     <option value="3">199,999%</option>
-                    <option value="4">399,999%</option>
-                  </select>
+                    <option value="4">399,999%</option> */}
+                  {/* </select> */}
                 </div>
               </div>
               <div>

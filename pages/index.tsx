@@ -3,10 +3,19 @@ import Layout from "../components/Layout";
 import Head from "next/head";
 import styles from "../styles/pages/Dashboard.module.scss";
 import Timer from "../components/Timer";
+import { useMoralis } from "react-moralis";
+import { useEffect } from "react";
 
 const Home: NextPage = () => {
   const time = new Date();
   time.setSeconds(time.getSeconds() + 1800); // In seconds (60 is one minute)
+  const { enableWeb3, isWeb3Enabled, isWeb3EnableLoading } = useMoralis();
+
+  useEffect(() => {
+    if (!isWeb3Enabled && !isWeb3EnableLoading) {
+      enableWeb3();
+    }
+  }, [isWeb3Enabled, isWeb3EnableLoading]);
 
   return (
     <>

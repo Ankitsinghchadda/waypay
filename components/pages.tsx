@@ -39,6 +39,6 @@ export const pages: Array<Page> = [
   {
     id: 6,
     pageName: "Docs",
-    path: "#",
+    path: "https://waypay.gitbook.io/waypay/",
   },
 ];

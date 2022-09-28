@@ -8,7 +8,7 @@
   align-items: center;
 
   & > .card {
-    width: 90%;
+    width: 100%;
     margin: 0 auto;
     position: relative;
     display: flex;
@@ -19,17 +19,15 @@
     background: $card-bg-color;
     .binance {
       width: 60px;
-      position: absolute;
-      left: 40px;
-      top: 75%;
-      transform: translateY(-75%);
+      object-fit: contain;
+   
     }
     .token_img {
-      width: 60px;
-      position: absolute;
-      right: 40px;
-      top: 75%;
-      transform: translateY(-75%);
+      width: 80px;
+      object-fit: contain;
+
+      
+      
     }
     @include box-shadow-primary;
 
@@ -125,7 +123,6 @@
 
     & > .total__container {
       display: flex;
-      justify-content: center;
       align-items: center;
       text-align: center;
       width: 100%;
@@ -165,6 +162,47 @@
         height: 20px;
         margin-left: 0.5rem;
       }
+    }
+  }
+  .approve__btn {
+    background: #2899ff;
+    border: none;
+    padding: 0.6rem 1.7rem;
+    color: white;
+    border-radius: 7px;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 1.25em;
+  }
+
+  .addButton_container{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 60%;
+
+    & > .add__token__btn {
+      background: transparent;
+      border: 1px solid $disabled-color;
+      color: $disabled-color;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 0.3rem 0.8rem;
+      border-radius: 10px;
+      cursor: pointer;
+
+      & > .img {
+        width: 20px;
+        height: 20px;
+        margin-left: 0.5rem;
+      }
+    }
+    @media screen and (max-width: 500px) {
+      width: 85%;
+    }
+    @media screen and (max-width: 450px) {
+      width: 90%;
     }
   }
 }

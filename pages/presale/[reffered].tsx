@@ -2,29 +2,35 @@ import type { NextPage } from "next";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
-import metaMaskIcon from "../assets/images/meta-mask-icon.svg";
-import busdIcon from "../assets/images/busd.png";
-import waypayIcon from "../assets/images/waypay.png";
-import referalIcon from "../assets/images/referral.png";
-import Layout from "../components/Layout";
-import styles from "../styles/pages/Presale.module.scss";
+import metaMaskIcon from "../../assets/images/meta-mask-icon.svg";
+import busdIcon from "../../assets/images/busd.png";
+import waypayIcon from "../../assets/images/waypay.png";
+import referalIcon from "../../assets/images/referral.png";
+import Layout from "../../components/Layout";
+import styles from "../../styles/pages/Presale.module.scss";
 import { ethers } from "ethers";
-import { ERC20Address, PreSaleAddress, BUSDAddress } from "../Config/Config.js";
-import erc20abi from "../ABI/erc20.json";
-import presaleabi from "../ABI/presale.json";
+import {
+  ERC20Address,
+  PreSaleAddress,
+  BUSDAddress,
+} from "../../Config/Config.js";
+import erc20abi from "../../ABI/erc20.json";
+import presaleabi from "../../ABI/presale.json";
 import { useWeb3Contract, useMoralis } from "react-moralis";
-import Moralis from "moralis";
-import BUSDabi from "../ABI/BUSD.json";
+import { useRouter } from "next/router";
+import BUSDabi from "../../ABI/BUSD.json";
 
 const Presale: NextPage = () => {
   const [totalTokens, setTotalTokens] = useState(0);
   const [noOfTokens, setNoOfTokens] = useState("");
-  const [busdPerTokenWei, setBusdPerTokenWei] = useState("400000000000000000");
-  const [busdPerToken, setBusdPerToken] = useState("0.4");
-  const { enableWeb3, isWeb3Enabled, isWeb3EnableLoading, account } =
+  const [busdPerTokenWei, setBusdPerTokenWei] = useState(null);
+  const [busdPerToken, setBusdPerToken] = useState("");
+  const { chainId, enableWeb3, isWeb3Enabled, isWeb3EnableLoading, account } =
     useMoralis();
 
-  // console.log(presaleabi);
+  // console.log(chainId);
+  const router = useRouter();
+  const { reffered } = router.query;
 
   const { runContractFunction: busdPrice } = useWeb3Contract({
     abi: presaleabi,
@@ -58,7 +64,13 @@ const Presale: NextPage = () => {
     });
   }
 
+  const enable_Web3 = async () => {
+    await enableWeb3();
+  };
   useEffect(() => {
+    if (!isWeb3Enabled && !isWeb3EnableLoading) {
+      enable_Web3();
+    }
     load();
   }, [isWeb3Enabled, isWeb3EnableLoading]);
 
@@ -97,6 +109,8 @@ const Presale: NextPage = () => {
     setTotalTokens(tokens * Number(busdPerToken));
   };
 
+  //
+
   const handleBuy = async () => {
     console.log(ethers.utils.parseEther(totalTokens.toString()).toString());
     const approveOption = {
@@ -115,7 +129,7 @@ const Presale: NextPage = () => {
       // msgValue: ethers.utils.parseEther(totalTokens.toString()).toString(),
       params: {
         baseAmount: ethers.utils.parseEther(noOfTokens.toString()).toString(),
-        _referralAddress: "0x0000000000000000000000000000000000000000",
+        _referralAddress: reffered,
       },
     };
     const option2 = {
@@ -232,13 +246,16 @@ const Presale: NextPage = () => {
 
           <div className={styles.total__container}>
             <div>
-              <img src="./images/binance-dash.png" className={styles.binance} />
+              <img
+                src=".././images/binance-dash.png"
+                className={styles.binance}
+              />
             </div>
             <span>Total price</span>
             <span>{Number(totalTokens.toString()).toFixed(3)} BUSD</span>
             <div>
               <img
-                src="./images/waypay_dash.png"
+                src=".././images/waypay_dash.png"
                 className={styles.token_img}
               />
             </div>

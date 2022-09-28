@@ -4,21 +4,30 @@ import Layout from "../components/Layout";
 import UpperCountBox from "../components/UpperCountBox";
 import styles from "../styles/pages/Swap.module.scss";
 import { useState } from "react";
+import Modal from "../components/Modal";
 const Swap: NextPage = () => {
   const [dropdownFirst, setDrodownFirst] = useState(true);
+  const [openModal, setOpenModal] = useState(false);
   return (
     <Layout>
+      {openModal ? <Modal setOpenModal={setOpenModal} /> : <></>}
+
       <div className={styles.container}>
         <div className={styles.boxWrapper}>
           <div className={styles.topArea}>
             <div className={styles.leftArea}>
-              <h1>Waypay</h1>
-              <p>Fast, Secure, KYC-Free.</p>
+              <h1>Waypay Token</h1>
             </div>
             <div className={styles.rightArea}>
               <img src="./images/refresh.svg" alt="" />
 
-              <img src="./images/settings.svg" alt="" />
+              <img
+                onClick={() => {
+                  setOpenModal(true);
+                }}
+                src="./images/settings.svg"
+                alt=""
+              />
             </div>
           </div>
 
@@ -41,7 +50,7 @@ const Swap: NextPage = () => {
               <h1>Slippage Tolerance</h1>
               <p>0.1%</p>
             </div>
-            <button>Connect Wallet</button>
+            <button>Swap</button>
           </div>
           <ul className={styles.box_list}>
             <li>

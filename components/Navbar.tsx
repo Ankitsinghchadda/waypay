@@ -12,139 +12,42 @@ import { FaDiscord } from "react-icons/fa";
 import { MdFacebook } from "react-icons/md";
 import { SiTelegram } from "react-icons/si";
 import metaWalletIcon from "../assets/images/meta-wallet-icon.svg";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
-import "@rainbow-me/rainbowkit/styles.css";
-import {
-  darkTheme,
-  getDefaultWallets,
-  RainbowKitProvider,
-} from "@rainbow-me/rainbowkit";
-import {
-  chain,
-  configureChains,
-  createClient,
-  WagmiConfig,
-  useAccount,
-} from "wagmi";
-import { infuraProvider } from "wagmi/providers/infura";
-import { publicProvider } from "wagmi/providers/public";
+import { useState, useEffect } from "react";
+import { ConnectButton } from "web3uikit";
+import { useMoralis } from "react-moralis";
+import { useChain } from "react-moralis";
+// import {switch}
 
-// const infuraId = "573c0833f357434cb3684454b757de77";
-const { chains, provider } = configureChains(
-  [chain.ropsten],
-  [publicProvider()]
-);
-const { connectors } = getDefaultWallets({
-  appName: "My RainbowKit App",
-  chains,
-});
-
-const wagmiClient = createClient({
-  autoConnect: true,
-  connectors,
-  provider,
-});
+// const bnbTestnetChain = [{id : 97, name: "Smart Chain - Testnet", network: "Smart Chain - Testnet", nativeCurrency : {
+//   name: "Binance Coin",
+//   symbol: "BNB",
+//   decimals: 18
+// }, rpcUrls: {public:"https://bsc-dataseed.binance.org"}, testnet : true}]
 
 export const YourApp = () => {
-  return (
-    <ConnectButton.Custom>
-      {({
-        account,
-        chain,
-        openAccountModal,
-        openChainModal,
-        openConnectModal,
-        mounted,
-      }) => {
-        return (
-          <div
-            {...(!mounted && {
-              "aria-hidden": true,
-              style: {
-                opacity: 0,
-                pointerEvents: "none",
-                userSelect: "none",
-              },
-            })}
-          >
-            {(() => {
-              if (!mounted || !account || !chain) {
-                return (
-                  <div className={styles.containerWallet}>
-                    <div className={styles.nav__left}>
-                      <div className={styles.btn}>
-                        <button onClick={openConnectModal}>
-                          <span className={styles.icon}>
-                            <Image src={metaWalletIcon} alt="meta wallet" />
-                          </span>
-                          <span>Connect Wallet</span>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                );
-              }
-
-              if (chain.unsupported) {
-                return (
-                  <div className={styles.containerWallet}>
-                    <div className={styles.nav__left}>
-                      <div className={styles.btn}>
-                        <button onClick={openChainModal} type="button">
-                          Wrong network
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                );
-              }
-
-              return (
-                <div
-                  className="desktop:w-6 laptop:w-6 mobile:w-4"
-                  style={{ display: "flex", gap: 5 }}
-                >
-                  <button
-                    onClick={openAccountModal}
-                    style={{ display: "flex", alignItems: "center" }}
-                    type="button"
-                  >
-                    {chain.hasIcon && (
-                      <div
-                        style={{
-                          background: chain.iconBackground,
-                          width: 20,
-                          height: 20,
-                          borderRadius: 999,
-                          overflow: "hidden",
-                          marginRight: 4,
-                        }}
-                      >
-                        {chain.iconUrl && (
-                          <picture>
-                            <img
-                              alt={chain.name ?? "Chain icon"}
-                              src={chain.iconUrl}
-                              style={{ width: 20, height: 20 }}
-                            />
-                          </picture>
-                        )}
-                      </div>
-                    )}
-                  </button>
-                </div>
-              );
-            })()}
-          </div>
-        );
-      }}
-    </ConnectButton.Custom>
-  );
+  return <ConnectButton />;
 };
 
 const Navbar: NextPage = () => {
   const [navState, setNavState] = useRecoilState<boolean>(NavbarState);
   const router: NextRouter = useRouter();
+
+  const { isWeb3Enabled, chainId, enableWeb3, isWeb3EnableLoading } =
+    useMoralis();
+  const { switchNetwork } = useChain();
+
+  useEffect(() => {
+    if (isWeb3Enabled && chainId != "0x61") {
+      switchNetwork("0x61");
+    } else {
+    }
+  }, [isWeb3Enabled]);
+
+  useEffect(() => {
+    if (!isWeb3Enabled && !isWeb3EnableLoading) {
+      enableWeb3();
+    }
+  }, [isWeb3Enabled, isWeb3EnableLoading]);
 
   return (
     <>
@@ -164,33 +67,20 @@ const Navbar: NextPage = () => {
         </div>
         <div className={styles.nav__left}>
           <div className={styles.social__icons}>
-            <a href="#">
-              <BsTwitter color="white" />
+            <a href="https://twitter.com/WayPay" target={"_blank"}>
+              <BsTwitter fontSize="1.5rem" color="white" />
             </a>
-            <a href="#">
-              <FaDiscord color="white" />
+            <a href="https://discord.gg/8b5FPPF3dh" target={"_blank"}>
+              <FaDiscord fontSize="1.5rem" color="white" />
             </a>
-            <a href="#">
-              <MdFacebook color="white" />
-            </a>
-            <a href="#">
-              <SiTelegram color="white" />
+            {/* <a href="#">
+              <MdFacebook fontSize="1.5rem" color="white" />
+            </a> */}
+            <a href="https://t.me/WayPayprotocol" target={"_blank"}>
+              <SiTelegram fontSize="1.5rem" color="white" />
             </a>
           </div>
-
-          <WagmiConfig client={wagmiClient}>
-            <RainbowKitProvider
-              chains={chains}
-              theme={darkTheme({
-                accentColor: "hsl(211, 100%, 51%)",
-                accentColorForeground: "black",
-                borderRadius: "large",
-                fontStack: "system",
-              })}
-            >
-              <YourApp />
-            </RainbowKitProvider>
-          </WagmiConfig>
+          <ConnectButton moralisAuth={false} />
         </div>
         <div
           onClick={() => {
@@ -205,6 +95,7 @@ const Navbar: NextPage = () => {
           <div className={styles["container__hamburger-3"]}></div>
         </div>
       </div>
+
       <div
         className={`${styles.container__main} ${
           navState ? styles["container__main-open"] : ""

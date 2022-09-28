@@ -41,7 +41,7 @@ const Presale: NextPage = () => {
   const { runContractFunction: updateSaleMethod } = useWeb3Contract({});
   const { runContractFunction: approve } = useWeb3Contract({});
 
-  // console.log(busdPerTokenWei);
+  console.log(busdPerTokenWei);
   // console.log(busdPerToken);
   async function load() {
     await busdPrice({

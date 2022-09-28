@@ -67,16 +67,16 @@ const Navbar: NextPage = () => {
         </div>
         <div className={styles.nav__left}>
           <div className={styles.social__icons}>
-            <a href="https://twitter.com/WayPay" target={"_blank"}>
+            <a href="https://twitter.com/WayPay">
               <BsTwitter fontSize="1.5rem" color="white" />
             </a>
-            <a href="https://discord.gg/8b5FPPF3dh" target={"_blank"}>
+            <a href="https://discord.gg/8b5FPPF3dh">
               <FaDiscord fontSize="1.5rem" color="white" />
             </a>
             {/* <a href="#">
               <MdFacebook fontSize="1.5rem" color="white" />
             </a> */}
-            <a href="https://t.me/WayPayprotocol" target={"_blank"}>
+            <a href="https://t.me/WayPayprotocol">
               <SiTelegram fontSize="1.5rem" color="white" />
             </a>
           </div>

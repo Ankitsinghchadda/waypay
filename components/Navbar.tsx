@@ -39,15 +39,15 @@ const Navbar: NextPage = () => {
   useEffect(() => {
     if (isWeb3Enabled && chainId != "0x61") {
       switchNetwork("0x61");
-    } else {
     }
-  }, [isWeb3Enabled]);
-
-  useEffect(() => {
     if (!isWeb3Enabled && !isWeb3EnableLoading) {
       enableWeb3();
     }
   }, [isWeb3Enabled, isWeb3EnableLoading]);
+
+  // useEffect(() => {
+
+  // }, [isWeb3Enabled, isWeb3EnableLoading]);
 
   return (
     <>

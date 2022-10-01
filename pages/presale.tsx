@@ -170,11 +170,12 @@ const Presale: NextPage = () => {
         params: approveOption,
         onSuccess: async (tx: any) => {
           await tx.wait(1);
-          waypay_buy();
           e.target.innerHTML = "Buy";
+          waypay_buy();
         },
-        onError: (e) => {
-          console.log(e);
+        onError: (error) => {
+          console.log(error);
+          e.target.innerHTML = "Buy";
         },
       });
     } else {

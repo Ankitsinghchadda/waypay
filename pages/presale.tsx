@@ -36,6 +36,15 @@ const Presale: NextPage = () => {
     contractAddress: PreSaleAddress,
     functionName: "saleMethod",
   });
+  const { runContractFunction: allowance } = useWeb3Contract({
+    abi: BUSDabi,
+    contractAddress: BUSDAddress,
+    functionName: "allowance",
+    params: {
+      _owner: account,
+      _spender: PreSaleAddress,
+    },
+  });
 
   const { runContractFunction: purchaseTokenWithBUSD } = useWeb3Contract({});
   const { runContractFunction: updateSaleMethod } = useWeb3Contract({});
@@ -97,7 +106,7 @@ const Presale: NextPage = () => {
     setTotalTokens(tokens * Number(busdPerToken));
   };
 
-  const handleBuy = async () => {
+  const handleBuy = async (e) => {
     console.log(ethers.utils.parseEther(totalTokens.toString()).toString());
     const approveOption = {
       abi: BUSDabi,
@@ -127,37 +136,54 @@ const Presale: NextPage = () => {
       },
     };
 
-    await approve({
-      params: approveOption,
-      onSuccess: async () => {
-        console.log("approved Successfully");
-        if ((await purchaseMethod()) == 1) {
-          await purchaseTokenWithBUSD({
-            params: option,
-            onSuccess: () => {
-              alert("Successfull");
-            },
-            onError: (e) => {
-              alert(e["data"].message);
-            },
-          });
-        } else {
-          await updateSaleMethod({ params: option2 });
-          await purchaseTokenWithBUSD({
-            params: option,
-            onSuccess: () => {
-              alert("Successfull");
-            },
-            onError: (e) => {
-              alert(e["data"]?.message);
-            },
-          });
-        }
-      },
-      onError: (e) => {
-        console.log(e);
-      },
-    });
+    const waypay_buy = async () => {
+      console.log("approved Successfully");
+      if ((await purchaseMethod()) == 1) {
+        await purchaseTokenWithBUSD({
+          params: option,
+          onSuccess: () => {
+            alert("Successfull");
+          },
+          onError: (e) => {
+            alert(e["data"]?.message);
+          },
+        });
+      } else {
+        await updateSaleMethod({ params: option2 });
+        await purchaseTokenWithBUSD({
+          params: option,
+          onComplete: () => {
+            alert("Successfull");
+          },
+          onError: (e) => {
+            alert(e["data"]?.message);
+          },
+        });
+      }
+    };
+    if (
+      parseInt((await allowance()).toString()) <=
+      parseInt(ethers.utils.parseEther(totalTokens.toString()).toString())
+    ) {
+      e.target.innerHTML = "Buying....";
+      await approve({
+        params: approveOption,
+        onSuccess: async (tx: any) => {
+          await tx.wait(1);
+          waypay_buy();
+          e.target.innerHTML = "Buy";
+        },
+        onError: (e) => {
+          console.log(e);
+        },
+      });
+    } else {
+      console.log(parseInt((await allowance()).toString()));
+      console.log(
+        parseInt(ethers.utils.parseEther(totalTokens.toString()).toString())
+      );
+      waypay_buy();
+    }
   };
 
   const handleAddToken = async () => {

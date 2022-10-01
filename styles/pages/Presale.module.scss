@@ -19,11 +19,14 @@
     background: $card-bg-color;
     .binance {
       width: 60px;
+      margin-left: 6.25px;
+      margin-right: 6.25px;
       object-fit: contain;
    
     }
     .token_img {
-      width: 80px;
+      width: 85px;
+
       object-fit: contain;
 
       
@@ -167,12 +170,19 @@
   .approve__btn {
     background: #2899ff;
     border: none;
-    padding: 0.6rem 1.7rem;
+    padding: 1rem 3rem;
     color: white;
     border-radius: 7px;
     cursor: pointer;
     font-weight: 700;
     font-size: 1.25em;
+  }
+
+  .images__flex{
+    display: flex;
+    width: 90%;
+    justify-content: space-between;
+    align-items: center;
   }
 
   .addButton_container{

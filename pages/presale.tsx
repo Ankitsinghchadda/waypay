@@ -149,7 +149,7 @@ const Presale: NextPage = () => {
               alert("Successfull");
             },
             onError: (e) => {
-              alert(e["data"].message);
+              alert(e["data"]?.message);
             },
           });
         }
@@ -224,24 +224,33 @@ const Presale: NextPage = () => {
               <AiOutlinePlus size={10} />
             </button>
           </div>
-          <div>
-            <button onClick={handleBuy} className={styles.approve__btn}>
-              Buy
-            </button>
-          </div>
-
-          <div className={styles.total__container}>
+          <div className={styles.images__flex}>
             <div>
               <img src="./images/binance-dash.png" className={styles.binance} />
             </div>
-            <span>Total price</span>
-            <span>{Number(totalTokens.toString()).toFixed(3)} BUSD</span>
+            <button onClick={handleBuy} className={styles.approve__btn}>
+              Buy
+            </button>
             <div>
               <img
                 src="./images/waypay_dash.png"
                 className={styles.token_img}
               />
             </div>
+          </div>
+
+          <div className={styles.total__container}>
+            {/* <div>
+              <img src="./images/binance-dash.png" className={styles.binance} />
+            </div> */}
+            <span>Total price</span>
+            <span>{Number(totalTokens.toString()).toFixed(3)} BUSD</span>
+            {/* <div>
+              <img
+                src="./images/waypay_dash.png"
+                className={styles.token_img}
+              />
+            </div> */}
           </div>
           <div className={styles.addButton_container}>
             <button onClick={handleAddToken} className={styles.add__token__btn}>

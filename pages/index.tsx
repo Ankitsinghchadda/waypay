@@ -11,11 +11,11 @@ const Home: NextPage = () => {
   time.setSeconds(time.getSeconds() + 1800); // In seconds (60 is one minute)
   const { enableWeb3, isWeb3Enabled, isWeb3EnableLoading } = useMoralis();
 
-  useEffect(() => {
-    if (!isWeb3Enabled && !isWeb3EnableLoading) {
-      enableWeb3();
-    }
-  }, [isWeb3Enabled, isWeb3EnableLoading]);
+  // useEffect(() => {
+  //   if (!isWeb3Enabled && !isWeb3EnableLoading) {
+  //     enableWeb3();
+  //   }
+  // }, [isWeb3Enabled, isWeb3EnableLoading]);
 
   return (
     <>

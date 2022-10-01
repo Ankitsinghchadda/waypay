@@ -36,18 +36,20 @@ const Navbar: NextPage = () => {
     useMoralis();
   const { switchNetwork } = useChain();
 
+  // useEffect(() => {
+  //   if (isWeb3Enabled && chainId != "0x61") {
+  //     switchNetwork("0x61");
+  //   }
+  //   if (!isWeb3Enabled && !isWeb3EnableLoading) {
+  //     enableWeb3();
+  //   }
+  // }, [isWeb3Enabled, isWeb3EnableLoading, chainId]);
+
   useEffect(() => {
     if (isWeb3Enabled && chainId != "0x61") {
       switchNetwork("0x61");
     }
-    if (!isWeb3Enabled && !isWeb3EnableLoading) {
-      enableWeb3();
-    }
-  }, [isWeb3Enabled, isWeb3EnableLoading]);
-
-  // useEffect(() => {
-
-  // }, [isWeb3Enabled, isWeb3EnableLoading]);
+  }, [chainId, isWeb3Enabled]);
 
   return (
     <>
